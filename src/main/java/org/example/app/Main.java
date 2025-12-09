@@ -1,26 +1,25 @@
 package org.example.app;
 
 
-import org.example.devices.DisposableCamera;
-import org.example.devices.Phone;
-import org.example.interfaces.Powerable;
-import org.example.interfaces.Rechargeable;
+import org.example.payment.CreditCardPayment;
+import org.example.payment.CryptoPayment;
+import org.example.payment.PayPalPayment;
+import org.example.payment.PaymentMethod;
+import org.example.processor.PaymentProcessor;
 
 public class Main {
     public static void main(String[] args) {
 
-        // Dispositivo recargable
-        Powerable phone = new Phone();
-        phone.turnOn();
-        ((Rechargeable) phone).charge();
-        phone.turnOff();
+        PaymentMethod creditCard = new CreditCardPayment();
+        PaymentMethod paypal = new PayPalPayment();
+        PaymentMethod crypto = new CryptoPayment();
 
-        System.out.println("-----------------------");
+        PaymentProcessor processor1 = new PaymentProcessor(creditCard);
+        PaymentProcessor processor2 = new PaymentProcessor(paypal);
+        PaymentProcessor processor3 = new PaymentProcessor(crypto);
 
-        // Dispositivo NO recargable
-        Powerable camera = new DisposableCamera();
-        camera.turnOn();
-        camera.turnOff();
+        processor1.makePayment(150.0);
+        processor2.makePayment(75.5);
+        processor3.makePayment(0.022); // bitcoins jeje
     }
 }
-
